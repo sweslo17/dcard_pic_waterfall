@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Dcard Pics</title>
+    <link rel="stylesheet" href="waterfall/demos/css/reset.css">
+    <link rel="stylesheet" href="waterfall/demos/css/waterfall.css">
+	<link href="lightbox/css/lightbox.css" rel="stylesheet" />
+</head>
+<body>
+<div id="header">
+    <h1>Dcard Pics</h1>
+</div>
+<div id="container"></div><!-- <img src="{{image}}" width="{{width}}" height="{{height}}" /> -->
+<script type="text/x-handlebars-template" id="waterfall-tpl">
+{{#result}}
+    <div class="item">
+        
+        <a href="{{image}}" data-lightbox="{{id}}" data-title="https://www.dcard.tw/f/all/p/{{id}}"><img src="{{image}}" width="200px" max-height='300px'/></a>
+    </div>
+{{/result}}
+</script>
+<script src="waterfall/demos/js/libs/jquery/jquery.js"></script>
+<script src="waterfall/demos/js/libs/handlebars/handlebars.js"></script>
+<script src="waterfall/demos/js/waterfall.min.js"></script>
+<script src="lightbox/js/lightbox.min.js"></script>
+<script>
+function getUrlParameter(sParam)
+{
+	var sPageURL = window.location.search.substring(1);
+	var sURLVariables = sPageURL.split('&');
+	for (var i = 0; i < sURLVariables.length; i++) 
+	{
+		var sParameterName = sURLVariables[i].split('=');
+		if (sParameterName[0] == sParam) 
+		{
+			return sParameterName[1];
+		}
+	}
+} 
+$('#container').waterfall({
+    itemCls: 'item',
+    colWidth: 222,  
+    gutterWidth: 15,
+    gutterHeight: 15,
+    checkImagesLoaded: false,
+    path: function(page) {
+		console.log(page);
+		console.log('get_pic.php?start=' + (page-1)*5 + '&limit=5&board='+getUrlParameter('board'));
+        return 'get_pic.php?start=' + (page-1)*5 + '&limit=5&board='+getUrlParameter('board');
+    }
+});
+</script>
+</body>
+</html>
